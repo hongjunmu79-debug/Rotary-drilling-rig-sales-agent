@@ -1,0 +1,6 @@
+id,category,question,expected_behavior
+1,parameter_lookup,What is the max drilling depth of ZR255R?,"Answer 56/70 m, explain Interlock/Friction Kelly configurations, cite source"
+2,model_comparison,Compare ZR185R and ZR255R for a 50m pile foundation project.,"Side-by-side parameter table, difference explanation, cite source"
+3,recommendation,Recommend a rotary drilling rig for a 60m depth and 2000mm diameter project in Dubai.,"Recommend models meeting depth/diameter, give reasons and risk notes"
+4,refusal_trap,What is the price of ZR255R?,"Refuse: price not in data, suggest contacting sales manager"
+5,refusal_trap,What is the swing radius of ZR380D?,"State raw data is N/A, do not invent a value"

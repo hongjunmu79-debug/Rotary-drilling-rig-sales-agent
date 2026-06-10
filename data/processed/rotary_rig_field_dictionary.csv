@@ -1,0 +1,32 @@
+﻿field_key,zh_name,en_name,unit,data_type,description,example,can_be_compared
+category,分类,Category,,text,设备加压方式分类，保留中文和英文并规范为单行文本。,油缸加压 Cylinder Crowding,False
+model,型号,Model,,text,产品型号，是每条产品记录的唯一标识。,ZR140,False
+crowd_mode,加压方式,Crowd Mode,,text,英文加压方式；与 category 语义重复，按原表保留。,Cylinder Crowding,False
+max_drilling_diameter_mm,最大钻孔直径,Max Drilling Diameter,mm,number,最大钻孔直径。,1300,True
+max_drilling_depth_m,最大钻孔深度,Max Drilling Depth,m,range_or_pair,最大钻孔深度。斜杠分隔的两个值通常对应机锁杆/摩阻杆（Interlock/Friction Kelly）不同配置，不可随意拆解。,35/44,False
+rated_output_torque_knm,最大输出扭矩,Rated Output Torque,kN·m,number,动力头最大额定输出扭矩。,140,True
+rotation_speed_rpm,转速范围,Rotation Speed,rpm,range_or_pair,动力头转速范围，连字符两侧为范围边界。,6-33,False
+crowd_force_kn,加压力,Crowd Force,kN,number,加压系统可施加的最大向下压力。,120,True
+line_pull_kn,起拔力,Line Pull,kN,number,加压系统可提供的最大起拔力。,130,True
+stroke_mm,加压行程,Stroke,mm,number,加压系统的最大行程。,3500,True
+main_winch_pull_kn,主卷扬拉力,Main Winch Pull,kN,number,主卷扬最大拉力。,140,True
+main_winch_rope_diameter_mm,主卷扬绳径,Winch Rope Dia,mm,number,主卷扬钢丝绳直径。,22,True
+main_winch_speed_m_min,主卷扬速度,Winch Speed,m/min,number,主卷扬钢丝绳速度。,80,True
+aux_winch_pull_kn,副卷扬拉力,Aux Winch Pull,kN,number,副卷扬最大拉力。,90,True
+aux_rope_diameter_mm,副卷扬绳径,Aux Rope Dia,mm,number,副卷扬钢丝绳直径。,22,True
+aux_speed_m_min,副卷扬速度,Aux Speed,m/min,number,副卷扬钢丝绳速度。,80,True
+engine_model,发动机型号,Engine,,text,发动机品牌及型号。,Cummins QSB5.9,False
+power_kw,功率,Power,kW,number,发动机额定功率。,119,True
+capacity_l,排量,Capacity,L,number,发动机排量。,5.9,True
+emission,排放,Emission,,text,发动机排放阶段。,Stage Ⅲ,False
+track_ext_width_mm,履带展开宽,Track Ext Width,mm,number,履带完全展开时的整机宽度。,4000,True
+track_shoe_width_mm,履带板宽,Track Shoe Width,mm,number,单侧履带板宽度。,700,True
+crawler_length_mm,履带总长,Crawler Length,mm,number,履带总长度。,4525,True
+swing_radius_mm,回转半径,Swing Radius,mm,number,设备回转半径；N/A 表示原资料未提供可用数值。,3660,True
+weight_t,工作质量,Weight,t,number,整机工作质量。如出现斜杠组合值，两个值通常对应机锁杆/摩阻杆（Interlock/Friction Kelly）不同配置，不可随意拆解。,40,True
+height_mm,整机高度,Height,mm,range_or_pair,设备工作状态整机高度；斜杠组合值按原资料整体保留。,16637,False
+transport_width_mm,运输宽,Tran Width,mm,number,设备运输状态宽度。,3000,True
+transport_height_mm,运输高,Tran Height,mm,range_or_pair,设备运输状态高度；斜杠组合值按原资料整体保留。,3607,False
+transport_length_mm,运输长,Tran Length,mm,number,设备运输状态长度。,15118,True
+interlock_kelly,机锁杆,Inter-lock Kelly,,text,机锁式钻杆规格代号，例如 J355-4×10。ZR225 的 J419-4×14m 中 m 后缀表示单位米，数据保留原样。,J355-4×10,False
+friction_kelly,摩阻杆,Friction Kelly,,text,摩阻式钻杆规格代号，例如 M355-5×10。ZR225 的 M419-5×14m 中 m 后缀表示单位米，数据保留原样。,M355-5×10,False
