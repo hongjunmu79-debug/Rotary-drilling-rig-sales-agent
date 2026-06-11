@@ -16,6 +16,8 @@ from src.param_lookup import (
     get_models,
     lookup,
 )
+from src.recommender import recommend
+from src.reply_generator import generate_reply
 
 
 KEY_MODELS = {
@@ -54,6 +56,140 @@ def render_sidebar(models: list[str], data_version: str) -> None:
     for model in models:
         marker = "★" if model in KEY_MODELS else "•"
         st.sidebar.write(f"{marker} {model}")
+
+
+def _recommendation_table(item: dict) -> list[dict[str, str]]:
+    """Build a compact parameter table for one recommendation card."""
+
+    return [
+        {"Parameter": "Max drilling depth (m)", "Value": item["depth_value"]},
+        {
+            "Parameter": "Max drilling diameter (mm)",
+            "Value": item["diameter_value"],
+        },
+        {"Parameter": "Rated output torque (kN.m)", "Value": item["torque"]},
+        {"Parameter": "Engine model", "Value": item["engine_model"]},
+        {"Parameter": "Power (kW)", "Value": item["power_kw"]},
+        {"Parameter": "Weight (t)", "Value": item["weight_t"]},
+        {"Parameter": "Emission", "Value": item["emission"]},
+        {
+            "Parameter": "Transport L/W/H (mm)",
+            "Value": (
+                f"{item['transport_length_mm']} / "
+                f"{item['transport_width_mm']} / "
+                f"{item['transport_height_mm']}"
+            ),
+        },
+    ]
+
+
+def _full_friction_depth_range() -> tuple[float, float]:
+    """Return the full product-line Friction Kelly depth range."""
+
+    all_models = recommend(0, 0, max_results=100)
+    friction_depths = [
+        float(item["depth_value"].split("/")[-1]) for item in all_models
+    ]
+    return min(friction_depths), max(friction_depths)
+
+
+def render_recommendation_section() -> None:
+    """Render Day 4 model recommendation and customer reply controls."""
+
+    st.divider()
+    st.header("Model Recommendation")
+    st.caption(
+        "Recommendations use structured CSV specifications only. "
+        "Customer replies use DeepSeek when configured and a safe template "
+        "otherwise."
+    )
+
+    depth_col, diameter_col = st.columns(2)
+    with depth_col:
+        required_depth = st.number_input(
+            "Required depth (m)",
+            min_value=0.0,
+            value=40.0,
+            step=1.0,
+        )
+    with diameter_col:
+        required_diameter = st.number_input(
+            "Required diameter (mm)",
+            min_value=0.0,
+            value=1300.0,
+            step=100.0,
+        )
+
+    project_type = st.text_input("Project type (optional)")
+    language_label = st.selectbox(
+        "Reply language",
+        ["English", "Arabic", "Both"],
+    )
+    language_codes = {"English": "en", "Arabic": "ar", "Both": "both"}
+
+    if st.button("Recommend", type="primary"):
+        st.session_state["recommendation_results"] = recommend(
+            required_depth,
+            required_diameter,
+        )
+        st.session_state["recommendation_request"] = {
+            "required_depth_m": required_depth,
+            "required_diameter_mm": required_diameter,
+            "project_type": project_type.strip(),
+            "market": "",
+            "language": language_codes[language_label],
+        }
+        st.session_state["generated_replies"] = {}
+
+    if "recommendation_results" not in st.session_state:
+        return
+
+    results = st.session_state["recommendation_results"]
+    request_facts = st.session_state["recommendation_request"]
+    if not results:
+        minimum, maximum = _full_friction_depth_range()
+        st.warning(
+            "No model meets both requirements. "
+            f"The full product-line Friction Kelly depth range is "
+            f"{minimum:g}-{maximum:g} m."
+        )
+        return
+
+    for index, item in enumerate(results):
+        with st.container(border=True):
+            key_marker = "Key model" if item["is_key_model"] else "Standard model"
+            st.subheader(f"{index + 1}. {item['model']} ({key_marker})")
+            st.table(_recommendation_table(item))
+            st.write(f"**Required configuration:** {item['required_config']}")
+            st.write(f"**Friction-depth margin:** {item['depth_margin']:g} m")
+            source = item["source"]
+            st.write(
+                "**Source:** "
+                f"{source['file']} / {source['sheet']} / {source['version']}"
+            )
+            st.warning("Sales reference only, confirm with engineers")
+
+            if st.button(
+                "Generate customer reply",
+                key=f"generate_reply_{index}_{item['model']}",
+            ):
+                facts = {**item, **request_facts}
+                customer_context = request_facts["project_type"]
+                st.session_state["generated_replies"][item["model"]] = (
+                    generate_reply(
+                        facts,
+                        request_facts["language"],
+                        customer_context,
+                    )
+                )
+
+            reply = st.session_state["generated_replies"].get(item["model"])
+            if reply:
+                mode_label = "LLM" if reply["mode"] == "llm" else "Template"
+                st.caption(f"Generation mode: {mode_label}")
+                st.text(reply["reply_text"])
+                if reply["note"]:
+                    st.caption(reply["note"])
 
 
 def main() -> None:
@@ -101,6 +237,8 @@ def main() -> None:
 
     if st.button("Lookup selected field"):
         st.markdown(format_lookup_result(lookup(selected_model, selected_field)))
+
+    render_recommendation_section()
 
 
 if __name__ == "__main__":
