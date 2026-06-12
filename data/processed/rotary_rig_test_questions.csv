@@ -1,6 +1,31 @@
-id,category,question,expected_behavior
-1,parameter_lookup,What is the max drilling depth of ZR255R?,"Answer 56/70 m, explain Interlock/Friction Kelly configurations, cite source"
-2,model_comparison,Compare ZR185R and ZR255R for a 50m pile foundation project.,"Side-by-side parameter table, difference explanation, cite source"
-3,recommendation,Recommend a rotary drilling rig for a 60m depth and 2000mm diameter project in Dubai.,"Recommend models meeting depth/diameter, give reasons and risk notes"
-4,refusal_trap,What is the price of ZR255R?,"Refuse: price not in data, suggest contacting sales manager"
-5,refusal_trap,What is the swing radius of ZR380D?,"State raw data is N/A, do not invent a value"
+﻿id,category,question,expected_type,expected_model,expected_field_key,expected_params
+A01,A,「ZR140 的钻深是多少？」,param_lookup,ZR140,max_drilling_depth_m,
+A02,A,What is the max drilling diameter of zr160l?,param_lookup,ZR160L,max_drilling_diameter_mm,
+A03,A,Look up ZR185H rated_output_torque_knm.,param_lookup,ZR185H,rated_output_torque_knm,
+A04,A,「ZR225 的功率是多少？」,param_lookup,ZR225,power_kw,
+A05,A,What is the weight of ZR255H?,param_lookup,ZR255H,weight_t,
+A06,A,「ZR300L 的运输宽是多少？」,param_lookup,ZR300L,transport_width_mm,
+A07,A,What engine does ZR360L use?,param_lookup,ZR360L,engine_model,
+A08,A,Show me the zr140r swing radius.,param_lookup,ZR140R,swing_radius_mm,
+A09,A,Look up ZR600GW max_drilling_depth_m.,param_lookup,ZR600GW,max_drilling_depth_m,
+A10,A,「ZR380D 的回转半径是多少？」,param_lookup,ZR380D,swing_radius_mm,
+B01,B,Compare max drilling depth for ZR140 and ZR185R.,comparison,,max_drilling_depth_m,"{""models"":[""ZR140"",""ZR185R""]}"
+B02,B,「对比 ZR255R 和 ZR300D 的最大钻孔直径。」,comparison,,max_drilling_diameter_mm,"{""models"":[""ZR255R"",""ZR300D""]}"
+B03,B,Compare rated output torque for ZR225 and ZR420GW.,comparison,,rated_output_torque_knm,"{""models"":[""ZR225"",""ZR420GW""]}"
+B04,B,「对比 ZR320R 和 ZR380D 的功率。」,comparison,,power_kw,"{""models"":[""ZR320R"",""ZR380D""]}"
+B05,B,Compare transport_width_mm for ZR160L and ZR600GW.,comparison,,transport_width_mm,"{""models"":[""ZR160L"",""ZR600GW""]}"
+C01,C,Recommend a rig for 35 m depth and 1300 mm diameter.,recommendation,ZR140R,,"{""required_depth_m"":35,""required_diameter_mm"":1300,""max_results"":3,""expect_empty"":false}"
+C02,C,Recommend a rig for 60 m depth and 2000 mm diameter.,recommendation,ZR300D,,"{""required_depth_m"":60,""required_diameter_mm"":2000,""max_results"":3,""expect_empty"":false}"
+C03,C,Recommend a rig for 65 m depth and 2300 mm diameter.,recommendation,ZR320R,,"{""required_depth_m"":65,""required_diameter_mm"":2300,""max_results"":3,""expect_empty"":false}"
+C04,C,Recommend a rig for 120 m depth and 3000 mm diameter.,recommendation,ZR600GW,,"{""required_depth_m"":120,""required_diameter_mm"":3000,""max_results"":3,""expect_empty"":false}"
+C05,C,Recommend a rig for 200 m depth and 5000 mm diameter.,recommendation,,,"{""required_depth_m"":200,""required_diameter_mm"":5000,""max_results"":3,""expect_empty"":true}"
+D01,D,Write an English sales reply for a 60 m / 2000 mm project.,reply,ZR300D,,"{""required_depth_m"":60,""required_diameter_mm"":2000,""project_type"":""foundation piling"",""market"":""UAE"",""customer_context"":""Dubai foundation project""}"
+D02,D,Write an English sales reply for a 40 m / 1300 mm project.,reply,ZR185R,,"{""required_depth_m"":40,""required_diameter_mm"":1300,""project_type"":""bridge foundation"",""market"":""Saudi Arabia"",""customer_context"":""Bridge piling project""}"
+D03,D,Write an English sales reply for a 65 m / 2300 mm project.,reply,ZR320R,,"{""required_depth_m"":65,""required_diameter_mm"":2300,""project_type"":""commercial foundation"",""market"":""Qatar"",""customer_context"":""Urban foundation project""}"
+D04,D,Write an English sales reply for a 120 m / 3000 mm project.,reply,ZR600GW,,"{""required_depth_m"":120,""required_diameter_mm"":3000,""project_type"":""deep foundation"",""market"":""UAE"",""customer_context"":""Deep large-diameter piling""}"
+D05,D,Write an English sales reply for a 44 m / 1500 mm project.,reply,ZR185R,,"{""required_depth_m"":44,""required_diameter_mm"":1500,""project_type"":""residential foundation"",""market"":""Oman"",""customer_context"":""Residential piling project""}"
+E01,E,「ZR255R 的价格是多少？」,trap,ZR255R,,"{""trap_kind"":""unsupported_field"",""topic"":""price""}"
+E02,E,What is the fuel consumption of ZR300D?,trap,ZR300D,,"{""trap_kind"":""unsupported_field"",""topic"":""fuel_consumption""}"
+E03,E,「ZR420GW 的交期多久？」,trap,ZR420GW,,"{""trap_kind"":""unsupported_field"",""topic"":""delivery_time""}"
+E04,E,「ZR185R 能钻 100m 吗？」,trap,ZR185R,max_drilling_depth_m,"{""trap_kind"":""depth_capability"",""required_depth_m"":100}"
+E05,E,Please provide the specifications for ZR999.,trap,,,"{""trap_kind"":""unknown_model""}"
